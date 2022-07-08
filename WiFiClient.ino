@@ -8,10 +8,14 @@
 #include <Adafruit_SSD1306.h>
 #define SCREEN_WIDTH 128 // OLED display width, in pixels
 #define SCREEN_HEIGHT 64 // OLED display height, in pixels
+String newHostname = "TEST8266";
 const char* ssid     = STASSID;
 const char* password = STAPSK;
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 void setup() {
+  pinMode(2,OUTPUT);
+  Serial.printf("Default hostname: %s\n", WiFi.hostname().c_str());
+  WiFi.hostname(newHostname.c_str());
   Serial.begin(115200);
   Serial.println();
   Serial.println();
@@ -38,20 +42,24 @@ void setup() {
   display.setTextColor(WHITE);
   display.setCursor(0, 0);
   // Display static text
-  display.println("CONNECTED");
-  display.display(); 
-}
-
-void loop() {
-
- display.setTextSize(2);
-  display.setTextColor(WHITE);
+  display.println("CONNECTED TO");
+  display.display();
+  display.clearDisplay();
+  display.setTextSize(2);
   display.setCursor(0, 20);
   // Display static text
   display.println(WiFi.localIP());
-  display.display(); 
+  display.display();
+}
 
+void loop() {
+  digitalWrite(2,HIGH);
+  delay (500);
+  display.clearDisplay();
+  display.setTextSize(2);
+  display.setCursor(0, 20);
+  // Display static text
+  display.println(WiFi.localIP());
+  display.display();
 
-
-  delay (50000);
 }
