@@ -5,8 +5,8 @@
 #include <WiFiUdp.h>
 //====================================
 #ifndef STASSID
-#define STASSID "REDACTED"
-#define STAPSK  "REDACTED"
+#define STASSID "FUCK JOE BIDEM"
+#define STAPSK  "HEILHITLER"
 #endif
 //====================================
 #include <Adafruit_GFX.h>
@@ -17,7 +17,7 @@ String newHostname = "TEST8266";
 const char* ssid     = STASSID;
 const char* password = STAPSK;
 //=====================================================
-const unsigned char REICH [] PROGMEM = {
+const unsigned char BS [] PROGMEM = {
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -119,9 +119,9 @@ void setup() {
 void loop() {
   ArduinoOTA.handle();
   delay (500);
-//======================
+  //======================
   display.clearDisplay();
-  display.drawBitmap(14, 0,  REICH, 128, 64, WHITE);
+  display.drawBitmap(14, 0,  BS, 128, 64, WHITE);
   display.display();
   delay(3000);
   long rssi = WiFi.RSSI();
@@ -134,4 +134,5 @@ void loop() {
   display.println(rssi);
   display.display();
   delay(5000);
+
 }
