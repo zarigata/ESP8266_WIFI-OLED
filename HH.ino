@@ -1,23 +1,4 @@
-#include <ESP8266WiFi.h>
-#include <ArduinoOTA.h>
-#include <Wire.h>
-#include <ESP8266mDNS.h>
-#include <WiFiUdp.h>
-//====================================
-#ifndef STASSID
-#define STASSID "REDACTED"
-#define STAPSK  "REDACTED"
-#endif
-//====================================
-#include <Adafruit_GFX.h>
-#include <Adafruit_SSD1306.h>
-#define SCREEN_WIDTH 128 // OLED display width, in pixels
-#define SCREEN_HEIGHT 64 // OLED display height, in pixels
-String newHostname = "TEST8266";
-const char* ssid     = STASSID;
-const char* password = STAPSK;
-//=====================================================
-const unsigned char BS [] PROGMEM = {
+const unsigned char BSS [] PROGMEM = {
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -83,56 +64,3 @@ const unsigned char BS [] PROGMEM = {
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
-Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, 1);
-void setup() {
-  ArduinoOTA.begin();
-  if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { // Address 0x3D for 128x64
-    Serial.println(F("SSD1306 allocation failed"));
-    for (;;);
-  }
-  WiFi.mode(WIFI_STA);
-  WiFi.begin(ssid, password);
-  WiFi.hostname("ESP TEST");
-  while (WiFi.status() != WL_CONNECTED) {
-    display.clearDisplay();
-    display.setTextSize(1);
-    display.setCursor(0, 0);
-    display.println("NOT CONNECTED");
-    delay(500);
-  }
-  delay(2000);
-  display.clearDisplay();
-  display.setTextSize(1);
-  display.setTextColor(WHITE);
-  display.setCursor(0, 0);
-  // Display static text
-  display.println("CONNECTED TO");
-  display.display();
-  display.setTextSize(2);
-  display.setCursor(0, 20);
-  // Display static text
-  display.println(ssid);
-  display.display();
-  delay(5000);
-}
-
-void loop() {
-  ArduinoOTA.handle();
-  delay (500);
-  //======================
-  display.clearDisplay();
-  display.drawBitmap(14, 0,  BS, 128, 64, WHITE);
-  display.display();
-  delay(3000);
-  long rssi = WiFi.RSSI();
-  display.clearDisplay();
-  display.setCursor(0, 0);
-  display.setTextSize(2);
-  display.println("STRENGHT");
-  display.setCursor(0, 20);
-  display.setTextSize(3);
-  display.println(rssi);
-  display.display();
-  delay(5000);
-
-}
